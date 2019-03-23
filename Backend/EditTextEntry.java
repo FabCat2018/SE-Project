@@ -12,18 +12,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class TextEntry {
+public class EditTextEntry {
     static String reviewBody;
 
-    public static String display (String title, String message) {
+    public static String display (String title, String message, Review review) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
 
-        Label label = new Label();
-        label.setText(message);
-        TextArea newBody = new TextArea("");
+        Label previousLabel = new Label("Current Review Body");
+        Label newLabel = new Label(message);
+        TextArea oldBody = new TextArea(review.getBody());
+        oldBody.setEditable(false);
+        TextArea newBody = new TextArea();
         newBody.setPromptText("Enter body here");
 
         Button finishButton = new Button("Finish");
@@ -34,7 +36,7 @@ public class TextEntry {
         });
 
         VBox layout = new VBox(20);
-        layout.getChildren().addAll(label, newBody, finishButton);
+        layout.getChildren().addAll(previousLabel, oldBody, newLabel, newBody, finishButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);

@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 
 public class MovieGUI extends Application {
@@ -40,11 +41,13 @@ public class MovieGUI extends Application {
 
         //Register Scene Functionality
         Label registerLabel = new Label("Please register your details with us");
-        TextField userNameR = new TextField("Create your username here");
-        TextField passwordR = new TextField("Create a password here");
+        TextField userNameR = new TextField();
+        userNameR.setPromptText("Username");
+        PasswordField passwordR = new PasswordField();
+        passwordR.setPromptText("Password");
         Button registerButton = new Button("Register");
         registerButton.setOnAction(e -> {
-            if (!userNameR.getText().equals("") && !userNameR.getText().equals("Create your username here") && !passwordR.getText().equals("") && !passwordR.getText().equals("Create a password here")) {
+            if (!userNameR.getText().equals("") && userNameR.getText() != null && !passwordR.getText().equals("") && passwordR != null) {
                 user = ur.register(userNameR.getText(), passwordR.getText());
                 window.setScene(loginScene);
             }
@@ -62,8 +65,10 @@ public class MovieGUI extends Application {
 
         //Login Scene Functionality
         Label loginLabel = new Label("Please enter your login details");
-        TextField userNameL = new TextField("Enter username here");
-        TextField passwordL = new TextField("Enter password here");
+        TextField userNameL = new TextField();
+        userNameL.setPromptText("Username");
+        PasswordField passwordL = new PasswordField();
+        passwordL.setPromptText("Password");
         TextField recognised = new TextField("Our apologies, your login or password is incorrect");
         recognised.setVisible(false);
         Button loginButton = new Button("Login");
@@ -110,23 +115,25 @@ public class MovieGUI extends Application {
         /* MAIN SCENE SECTION */
 
         //Main Scene Functionality
-        Label mainLabel = new Label("Any reviews-related activities will be for Spectre (Demonstration purposes)");
+        Label mainLabel = new Label("Any review-related activities will be for Spectre (Demonstration purposes)");
         Button addReviewButton = new Button("Add Review");
         addReviewButton.setOnAction(e -> {
             body = TextEntry.display("Movie Review Text Entry", "Please enter your review body below");
             if (!body.equals(""))
                 review = user.writeReview(spectre, body);
-            else
-                System.out.println("Try again");
         });
 
         Button editReviewButton = new Button("Edit Current Review");
         editReviewButton.setOnAction(e -> {
-            body = TextEntry.display("Movie Review Text Entry", "Please enter your new review body below");
-            if (!body.equals("")) {
-                if (review == null)
-                    review = user.writeReview(spectre, body);
-                else
+            if (review == null) {
+                body = TextEntry.display("Movie Review Text Entry", "Please enter your review body below");
+                if (!body.equals("")) {
+                        review = user.writeReview(spectre, body);
+                }
+            }
+            else {
+                body = EditTextEntry.display("Movie Review Edit Review", "Please enter the new Review body below", review);
+                if (!body.equals(""))
                     user.editReview(spectre, review, body);
             }
         });
@@ -144,9 +151,11 @@ public class MovieGUI extends Application {
 
         Button switchReviewButton = new Button("Switch Current Review");
         switchReviewButton.setOnAction(e -> {
-            if (spectre.getReviewsList().size() > 0) {
+            if (spectre.getReviewsList().size() > 1) {
                 id = SwitchingWindow.display("Switch Current Review", "Enter the number of the review to switch to (1 is the first review in the list)");
-                review = spectre.getReviewsList().get(id-1);
+                if (id < spectre.getReviewsList().size() && id > 0) {
+                    review = spectre.getReviewsList().get(id-1);
+                }
             }
         });
 

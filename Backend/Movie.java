@@ -121,12 +121,13 @@ public class Movie extends Object {
 		String result = this.name + "\nGenre: " + this.genre + "\nActing: " + this.actingRating + "\nCinematogrpahy: "
 		+ this.cinematographyRating + "\nConcept: " + this.conceptRating + "\nSoundtrack: " + this.soundtrackRating
 		+ "\nPlot: " + this.plotRating + "\nTotal: " + this.totalRating;
-		if (this.reviewsList.size() > 0) {
+		int size = this.reviewsList.size();
+		if (size > 0) {
 			result += "\n\nReviews:\n";
 			for (int i = 0; i < this.reviewsList.size()-1; i++) {
-				result += "[" + this.reviewsList.get(i).toString() + "]\n";
+				result += (i+1) + ".\t[" + this.reviewsList.get(i).toString() + "]\n";
 			}
-			result += "[" + this.reviewsList.get(this.reviewsList.size()-1).toString() + "]";
+			result += (size) + ".\t[" + this.reviewsList.get(size-1).toString() + "]";
 		}
 		return result;
 	}

@@ -19,6 +19,10 @@ public class Review {
 		this.owner = owner;
 	}
 
+	public String getBody () {
+		return this.body;
+	}
+
 	public void editBody (String newBody) {
 		this.body = newBody;
 	}

@@ -25,7 +25,7 @@ public class RegisteredUser extends User {
 	 */
 	public boolean login(String name, String password) {
 		if ((name.equals(this.userName)) && (password.equals(this.password))) {
-			System.out.println("You are now logged in");
+			//System.out.println("You are now logged in");
 			return true;
 		}
 		return false;
